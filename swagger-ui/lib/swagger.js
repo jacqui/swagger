@@ -87,7 +87,7 @@ var SwaggerApi = function(url, options) {
   this.authorizations = null;
   this.authorizationScheme = null;
   this.info = null;
-  this.useJQuery = false;
+  this.useJQuery = true;
 
   options = (options||{});
   if (url)
@@ -122,6 +122,9 @@ SwaggerApi.prototype.build = function() {
     method: "get",
     headers: {
       accept: "application/json"
+    },
+    xhrFields: {
+      withCredentials: true
     },
     on: {
       error: function(response) {
@@ -354,6 +357,9 @@ var SwaggerResource = function(resourceObj, api) {
       useJQuery: this.useJQuery,
       headers: {
         accept: "application/json"
+      },
+      xhrFields: {
+        withCredentials: true
       },
       on: {
         response: function(resp) {
@@ -1191,6 +1197,9 @@ var SwaggerRequest = function(type, url, params, opts, successCallback, errorCal
       headers: myHeaders,
       body: body,
       useJQuery: this.useJQuery,
+      xhrFields: {
+        withCredentials: true
+      },
       on: {
         error: function(response) {
           return _this.errorCallback(response, _this.opts.parent);
@@ -1302,6 +1311,10 @@ JQueryHttpClient.prototype.execute = function(obj) {
       }
       return results;
     }
+  };
+
+  obj.xhrFields = {
+    withCredentials: true
   };
 
   obj.data = obj.body;
